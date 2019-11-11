@@ -92,7 +92,9 @@ def parse_input_fsm(fsm: list, fsm_start: int, reserved: list, inp: str):
 
             # Restaura a máquina no passado, dizendo que o último estado salvo já virou um token;
             # recomeçamos a máquina no estado inicial e reposicionamos o cursor.
-            current_cfg = last_valid_cfg
+            current_cfg = last_valid_cfg.copy()
+            last_valid_cfg['token'] = None
+            last_valid_cfg['state'] = None
             current_cfg['state'] = fsm_start
             current_cfg['poscounter'] += 1
 
@@ -108,6 +110,10 @@ def parse_input_fsm(fsm: list, fsm_start: int, reserved: list, inp: str):
         
         else: # Assertiva: Deu ruim! Ambiguidade no modelo
             raise Exception("Ambiguous FSM")
+    
+    if current_cfg['state'] != fsm_start:
+        import sys
+        print("WARNING: Parsing didn't completed.", file=sys.stderr)
     
     return seqr
 
@@ -139,4 +145,9 @@ if __name__ == "__main__":
     with open(inp, 'r') as f:
         inp = f.read()
     p0 = parse_input_fsm(fsm, fsm_start, reserved, inp)
-    beauty_print(p0)
+    
+    if '-u' in argv:
+        for i in p0:
+            print('{}|{}|{}'.format(i['token'], i['state'], i['linecounter']))
+    else:
+        beauty_print(p0)
