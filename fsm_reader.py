@@ -1,14 +1,26 @@
 import json
 
 def read_fsm_plain(filename='fsm.json'):
+    '''Lê uma máquina de estados de um arquivo JSON.
+    Retorna o dicionário equivalente.
+    '''
     with open(filename, 'r') as f:
         return json.loads(f.read())
 
 def read_reserved_keywords(reservedfile='reserved.txt'):
+    '''Lê uma lista de palavras reservadas de um arquivo, separados por quebras de linhas.
+    '''
     with open(reservedfile, 'r') as f:
         return [i.strip() for i in f.readlines()]
 
 def read_fsm(filename='fsm.json', reservedfile='reserved.txt'):
+    '''Lê e interpreta uma FSM e uma lista de palavras reservadas.
+    Retorna uma tripla, correspondendo a (FSM, Inicio, Reservados):
+    1) FSM: Uma lista de estados. Cada estado é um dicionário que contém 'text': str, 'accept': bool e 'links': list.
+    1.1) links é uma lista de tuplas, onde cada item representa uma transição na forma (índice do próximo estado: int, regra de transição: str).
+    2) Ínicio: O índice do estado inicial da FSM.
+    3) Uma lista de palavras reservadas.
+    '''
     plain = read_fsm_plain(filename)
     reserved = read_reserved_keywords(reservedfile)
     

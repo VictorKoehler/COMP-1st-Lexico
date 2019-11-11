@@ -14,6 +14,8 @@ class HTTPPostHandler(SimpleHTTPRequestHandler):
         return super().do_GET(*args, **kwargs)
 
 def run(server_class=HTTPServer, handler_class=HTTPPostHandler):
+    '''Um simples servidor HTTP que possibilita a atualização do arquivo fsm.json.
+    '''
     server_address = ('', 8000)
     httpd = server_class(server_address, handler_class)
     httpd.serve_forever()
