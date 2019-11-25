@@ -1,0 +1,22 @@
+program teste; {programa exemplo}
+var
+    valor1: integer;
+    valor2: real;
+
+procedure olha_o_void(n: integer);
+    var
+        x: integer;
+    begin
+        x := 10;
+    end;
+
+function fatorial(n: integer): integer;
+    var
+        x: integer;
+    begin
+        x := 10;
+        factorial := x;
+    end;
+begin
+    valor1 := 10;
+end.

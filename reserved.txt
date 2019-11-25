@@ -12,3 +12,5 @@ else
 while
 do
 not
+function
+
