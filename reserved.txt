@@ -13,4 +13,7 @@ while
 do
 not
 function
-
+true
+false
+and
+or
