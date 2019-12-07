@@ -1,0 +1,34 @@
+program teste; {programa exemplo}
+var
+    valor1: integer;
+    valor2: real;
+
+procedure olha_o_void(n: integer);
+    var
+        x: integer;
+    begin
+        x := 10;
+    end;
+
+function fatorial(n, n1, n2: integer; n3: real): integer;
+    var
+        x: integer;
+        b: boolean;
+        r: real;
+    begin
+        x := (-10*5) + 5*6;
+        b := x < fatorial(10, 1, 2, 3);
+        if x > fatorial(10, 1, 2, 3) then b := true
+        else begin
+            while b do begin
+                b := not b;
+            end
+        end;
+        olha_o_void(true);
+        fatorial(1, 2, fatorial(fatorial(1, 2, 3, 4), 2, 3, 4), 4);
+        r := 15.2 * fatorial(1, 2, 3, 4) + 4;
+        fatorial := x;
+    end;
+begin
+    valor1 := 10;
+end.

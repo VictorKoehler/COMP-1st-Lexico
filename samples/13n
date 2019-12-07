@@ -14,8 +14,8 @@ function fatorial(n: integer): integer;
     var
         x: integer;
     begin
-        x := 10;
-        factorial := x;
+        x := (10*5 < 3);
+        fatorial := x;
     end;
 begin
     valor1 := 10;
