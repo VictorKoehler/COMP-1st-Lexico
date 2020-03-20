@@ -117,6 +117,10 @@ def parse_input_fsm(fsm: list, fsm_start: int, reserved: list, inp: str):
     
     return seqr
 
+def token_repr(t):
+    d = {'\t': '\\t', '\n': '\\n', '\r': '\\r', '\f': '\\f', '\v': '\\v'}
+    return d.get(t, t)
+
 def beauty_print(results):
     '''Imprime o resultado de parse_input_fsm de forma amigável.
     '''
@@ -134,7 +138,7 @@ def beauty_print(results):
     }
     print_line('TOKEN', 'CLASSIFICAÇÂO', 'LINHA', '-')
     for i in results:
-        print_line(i['token'], bb.get(i['state'], i['state']), i['linecounter'])
+        print_line(token_repr(i['token']), bb.get(i['state'], i['state']), i['linecounter'])
 
 
 if __name__ == "__main__":
@@ -148,6 +152,6 @@ if __name__ == "__main__":
     
     if '-u' in argv:
         for i in p0:
-            print('{}|{}|{}'.format(i['token'], i['state'], i['linecounter']))
+            print('{}|{}|{}'.format(token_repr(i['token']), i['state'], i['linecounter']))
     else:
         beauty_print(p0)

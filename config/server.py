@@ -13,12 +13,14 @@ class HTTPPostHandler(SimpleHTTPRequestHandler):
                 print("Configuration file changed.")
         return super().do_GET(*args, **kwargs)
 
-def run(server_class=HTTPServer, handler_class=HTTPPostHandler):
+def run(server_class=HTTPServer, handler_class=HTTPPostHandler, port=8000):
     '''Um simples servidor HTTP que possibilita a atualização do arquivo fsm.json.
     '''
-    server_address = ('', 8000)
+    server_address = ('', port)
     httpd = server_class(server_address, handler_class)
     httpd.serve_forever()
 
 if __name__ == "__main__":
-    run()
+    port = 8000
+    print('http://127.0.0.1:{}'.format(port))
+    run(port=port)
