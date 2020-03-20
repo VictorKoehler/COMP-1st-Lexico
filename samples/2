@@ -1,9 +1,0 @@
-program teste; {programa exemplo
-multiline var comments
-}
-var
-    valor1: integer;
-    valor2: real;
-begin
-    valor1 := 10;
-end.
