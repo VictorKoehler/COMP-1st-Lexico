@@ -13,6 +13,8 @@ def dictman_adapter(orig):
     for i in tqdm(orig):
         if i['state'] == 'palavra':
             i['state'] = dictman.get(i['token'], 'classe')
+            if i['state'] == 'verbo': # Stemiza apenas verbos
+                i['token'] = dictman.get(i['token'], 'raiz', optional=i['token'])
     dictman.save()
     return orig
 

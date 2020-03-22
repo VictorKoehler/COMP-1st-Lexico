@@ -147,7 +147,7 @@ def main_module(lf=lambda i: i, doprint=True):
     fsm, fsm_start, reserved = read_fsm()
     inp = argv[1] if len(argv) >= 2 else input()
     with open(inp, 'r') as f:
-        inp = f.read()
+        inp = f.read().strip()
     p0 = lf(parse_input_fsm(fsm, fsm_start, reserved, inp))
     
     if doprint:

@@ -46,18 +46,20 @@ class DictionaryManager():
         self.cache[w] = cach
         return cach
     
-    def __fetch_word(self, w, k):
+    def __fetch_word(self, w, k, optional=False):
         for d in self.dicts:
             nc = self.__join_word_dic(w, d)
             if not nc.get(k, None) is None:
                 return nc[k]
         self.save()
+        if optional:
+            return optional
         raise Exception("A procura da '{}' da palavra '{}' falhou mesmo após varrer todos os dicionários.".format(k, w))
     
-    def get(self, w, key, autolower=True, *args, **kwargs):
+    def get(self, w, key, optional=False, autolower=True, *args, **kwargs):
         lower = lambda l: l.lower() if autolower else l
         r = self.__get_key(w.lower(), key)
-        return lower(r or self.__fetch_word(w.lower(), key))
+        return lower(r or self.__fetch_word(w.lower(), key, optional=optional))
 
     def load(self):
         import json
