@@ -4,8 +4,9 @@ from .dict_base import DicionarioBase, DicionarioChaves
 from .modules.offline import Offline
 from .modules.priberam import Priberam
 from .modules.dicio import Dicio
+from .modules.lexicopt import LexicoPT
 
-default_dicts = [Offline(), Priberam(), Dicio()]
+default_dicts = [Offline(), Priberam(), LexicoPT(), Dicio()]
 
 
 class DictionaryManager():

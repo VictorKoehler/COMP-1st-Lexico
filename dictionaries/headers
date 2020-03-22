@@ -1,4 +1,3 @@
-Host: dicionario.priberam.org
 Connection: keep-alive
 Cache-Control: max-age=0
 Upgrade-Insecure-Requests: 1
