@@ -141,17 +141,22 @@ def beauty_print(results):
         print_line(token_repr(i['token']), bb.get(i['state'], i['state']), i['linecounter'])
 
 
-if __name__ == "__main__":
+def main_module(lf=lambda i: i, doprint=True):
     '''Por padrão, ou recebe o arquivo de entrada como argumento da linha de comando, ou lê o caminho da entrada padrão.
     '''
     fsm, fsm_start, reserved = read_fsm()
     inp = argv[1] if len(argv) >= 2 else input()
     with open(inp, 'r') as f:
         inp = f.read()
-    p0 = parse_input_fsm(fsm, fsm_start, reserved, inp)
+    p0 = lf(parse_input_fsm(fsm, fsm_start, reserved, inp))
     
-    if '-u' in argv:
-        for i in p0:
-            print('{}|{}|{}'.format(token_repr(i['token']), i['state'], i['linecounter']))
-    else:
-        beauty_print(p0)
+    if doprint:
+        if '-u' in argv:
+            for i in p0:
+                print('{}|{}|{}'.format(token_repr(i['token']), i['state'], i['linecounter']))
+        else:
+            beauty_print(p0)
+    return p0
+
+if __name__ == "__main__":
+    main_module()
