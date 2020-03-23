@@ -5,18 +5,19 @@ offline_dict = dict()
 
 class Offline(DicionarioBase):
     def __init__(self, *args, **kwargs):
-        super().__init__({'palavra', 'classe', 'raiz'}, *args, **kwargs)
+        super().__init__({'palavra', 'classe', 'raiz', 'tempo'}, *args, **kwargs)
 
     def get(self, w, *args, **kwargs):
         return offline_dict.get(w.lower(), {})
 
-def reg(w, classe, raiz=None):
+def reg(w, classe, raiz=None, tempo=None):
     if w in offline_dict:
         raise Exception('Palavra repetida!')
     w = w.lower()
     r = {'palavra': w}
     r['classe'] = classe
     r['raiz'] = raiz or w
+    r['tempo'] = tempo
     offline_dict[w] = r
 
 reg('A', 'artigo')
@@ -57,4 +58,4 @@ reg('do',  'preposição') # Contração
 reg('das', 'preposição', 'da') # Contração
 reg('dos', 'preposição', 'do') # Contração
 
-reg('são', 'verbo', 'ser')
+reg('são', 'verbo', 'ser', 'presente')

@@ -3,7 +3,7 @@ import re
 
 class LexicoPT(DicionarioBase):
     def __init__(self, *args, **kwargs):
-        super().__init__({'palavra', 'classe', 'raiz'}, *args, **kwargs)
+        super().__init__({'palavra', 'classe', 'raiz', 'tempo'}, *args, **kwargs)
 
     def soup(self, w, *args, **kwargs):
         return self._soup('https://www.lexico.pt/' + w)
@@ -12,7 +12,8 @@ class LexicoPT(DicionarioBase):
         s = self.soup(w)
         r = {'palavra': w}
         classe_map = {'subst.' : 'substantivo', 'adj.': 'adjetivo', 'pron.': 'pronome', 'v.': 'verbo', 'prep.': 'preposição'}
-        r['classe'] = r['raiz'] = None
+        r['classe'] = r['raiz'] = r['tempo'] = None
+
         try:
             classe = re.split(re.compile(r'\n *\n'), '\n'.join(s.find(id='significado').strings))
             classe = [i.split('\n')[0].strip().split(' ')[0].strip() for i in classe]
@@ -20,6 +21,7 @@ class LexicoPT(DicionarioBase):
             r['classe'] = classe[0] if classe else None
             if r['classe'] == 'verbo':
                 r['raiz'] = lambdaOrNone(s.find(id='significado').find('strong'), lambda d: d.text)
+                r['tempo'] = self._dirty_tense(lambdaOrNone(s.find(class_='conjugacoes'), lambda d: d.text), 'presente')
         except:
             pass
         return r
