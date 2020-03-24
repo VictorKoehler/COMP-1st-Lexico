@@ -43,7 +43,9 @@ class DictionaryManager():
                 continue
             cands = [(cach.get(k+'_src', None), cach.get(k, None)), (str(dictcand), cand.get(k, None))]
             t0, t1 = DictionaryManager.__firstNotNoneTupled(*cands, invert=invert)
-            cach[k] = t0.replace('adjectivo', 'adjetivo').replace()
+            if not t0 is None:
+                t0 = t0.replace('adjectivo', 'adjetivo')
+            cach[k] = t0
             cach[k+'_src'] = t1
         self.cache[w] = cach
         return cach

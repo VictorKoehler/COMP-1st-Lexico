@@ -59,3 +59,14 @@ reg('das', 'preposição', 'da') # Contração
 reg('dos', 'preposição', 'do') # Contração
 
 reg('são', 'verbo', 'ser', 'presente')
+
+reg('eu', 'pronome')
+reg('nós', 'pronome')
+reg('tu', 'pronome')
+reg('você', 'pronome')
+reg('vós', 'pronome')
+reg('vocês', 'pronome', 'você')
+reg('ele', 'pronome')
+reg('eles', 'pronome', 'ele')
+reg('ela', 'pronome')
+reg('elas', 'pronome', 'ela')
