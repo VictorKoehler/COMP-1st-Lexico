@@ -39,9 +39,11 @@ class DictionaryManager():
         cach = self.__get_word(w)
 
         for k in set(cach.keys()).union(cand.keys()):
+            if k.endswith('_src'):
+                continue
             cands = [(cach.get(k+'_src', None), cach.get(k, None)), (str(dictcand), cand.get(k, None))]
             t0, t1 = DictionaryManager.__firstNotNoneTupled(*cands, invert=invert)
-            cach[k] = t0
+            cach[k] = t0.replace('adjectivo', 'adjetivo').replace()
             cach[k+'_src'] = t1
         self.cache[w] = cach
         return cach
@@ -54,7 +56,7 @@ class DictionaryManager():
         self.save()
         if optional:
             return optional
-        raise Exception("A procura da '{}' da palavra '{}' falhou mesmo após varrer todos os dicionários.".format(k, w))
+        raise Exception("A procura da '{}' do(a) palavra '{}' falhou mesmo após varrer todos os dicionários.".format(k, w))
     
     def get(self, w, key, optional=False, autolower=True, *args, **kwargs):
         lower = lambda l: l.lower() if autolower else l
