@@ -16,7 +16,13 @@ class Priberam(DicionarioBase):
         try:
             assert len(s.find_all(class_='pb-nomargin-desktop')) == 1
             s.find(class_='pb-nomargin-desktop').decompose()
-            classe = [i.text.split(' ')[0].lower() for i in s.find_all('categoria_ext_aao')]
+
+            classe_raw = s.find_all('categoria_ext_aao')
+            classe = [i for i in classe_raw if i.parent.parent.parent.parent.find('b').text.lower().replace('·', '') == w.lower()]
+            if not classe:
+                classe = classe_raw
+            classe = [i.text.split(' ')[0].lower() for i in classe]
+            
             resultsbox = s.find(id='resultados').div.div
             if 'substantivo' in classe and 'pl.' in str(resultsbox.text):
                 r['classe'] = 'substantivo'
