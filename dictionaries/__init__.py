@@ -8,10 +8,14 @@ from .modules.lexicopt import LexicoPT
 
 default_dicts = [Offline(), Priberam(), LexicoPT(), Dicio()]
 
+known_classes = {'adjetivo', 'pronome', 'substantivo', 'verbo', 'preposição', 'conjunção', 'artigo', 'advérbio'}
+known_conversions = {'adjectivo': 'adjetivo', 'numeral': 'adjetivo'}
 
 class DictionaryManager():
-    def __init__(self, autoload=True, dicts=None):
+    def __init__(self, autoload=True, dicts=None, classes=None, conversions=None):
         self.dicts = dicts or default_dicts
+        self.classes = classes or known_classes
+        self.conversions = conversions or known_conversions
         self.cache_file = os.path.join(os.path.dirname(__file__), '__pycache__', 'cache.json')
         self.cache = dict()
         if autoload and os.path.isfile(self.cache_file):
@@ -35,16 +39,18 @@ class DictionaryManager():
         return DictionaryManager.__firstNotNoneTupled(enumerate(reversed(args) if invert else args))
     
     def __join_word_dic(self, w, dictcand, invert=False):
-        cand = dictcand.get(w)
-        cach = self.__get_word(w)
+        cand = dictcand.get(w, sourceinv=self)
+        cach = self.__get_word(w).copy()
 
         for k in set(cach.keys()).union(cand.keys()):
             if k.endswith('_src'):
                 continue
             cands = [(cach.get(k+'_src', None), cach.get(k, None)), (str(dictcand), cand.get(k, None))]
             t0, t1 = DictionaryManager.__firstNotNoneTupled(*cands, invert=invert)
-            if not t0 is None:
-                t0 = t0.replace('adjectivo', 'adjetivo')
+            if not t0 is None and k == 'classe':
+                t0 = self.conversions.get(t0, t0)
+                if not t0 in self.classes:
+                    raise Exception('Classe desconhecida para a palavra \'{}\': {}'.format(w, t0))
             cach[k] = t0
             cach[k+'_src'] = t1
         self.cache[w] = cach

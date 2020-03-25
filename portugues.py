@@ -10,14 +10,16 @@ except:
 
 dictman = DictionaryManager()
 def dictman_adapter(orig):
-    for i in tqdm(orig):
-        i['tempo'] = ''
-        if i['state'] == 'palavra':
-            i['state'] = dictman.get(i['token'], 'classe')
-            if i['state'] == 'verbo': # Stemiza apenas verbos
-                i['tempo'] = dictman.get(i['token'], 'tempo', optional='')
-                i['token'] = dictman.get(i['token'], 'raiz', optional=i['token'])
-    dictman.save()
+    try:
+        for i in tqdm(orig):
+            i['tempo'] = ''
+            if i['state'] == 'palavra':
+                i['state'] = dictman.get(i['token'], 'classe')
+                if i['state'] == 'verbo': # Stemiza apenas verbos
+                    i['tempo'] = dictman.get(i['token'], 'tempo', optional='')
+                    i['token'] = dictman.get(i['token'], 'raiz', optional=i['token'])
+    finally:
+        dictman.save()
     return orig
 
 if __name__ == "__main__":

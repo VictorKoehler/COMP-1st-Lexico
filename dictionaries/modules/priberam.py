@@ -13,6 +13,14 @@ class Priberam(DicionarioBase):
         r = {'palavra': w}
         r['classe'] = r['raiz'] = r['tempo'] = None
         tempo_words = [('pret.', 'p'), ('fut.', 'f'), ('pres.', 't')]
+
+        def get_wclass(i, kwargs):
+            if 'sourceinv' in kwargs:
+                for j in i.text.lower().split(' '):
+                    if kwargs['sourceinv'].conversions.get(j, j) in kwargs['sourceinv'].classes:
+                        return j
+            return i.text.split(' ')[0].lower()
+
         try:
             assert len(s.find_all(class_='pb-nomargin-desktop')) == 1
             s.find(class_='pb-nomargin-desktop').decompose()
@@ -21,10 +29,10 @@ class Priberam(DicionarioBase):
             classe = [i for i in classe_raw if i.parent.parent.parent.parent.find('b').text.lower().replace('·', '') == w.lower()]
             if not classe:
                 classe = classe_raw
-            classe = [i.text.split(' ')[0].lower() for i in classe]
+            classe = [get_wclass(i, kwargs) for i in classe]
             
             resultsbox = s.find(id='resultados').div.div
-            if 'substantivo' in classe and 'pl.' in str(resultsbox.text):
+            if 'substantivo' in classe and 'verbo' in classe and 'pl.' in str(resultsbox.text):
                 r['classe'] = 'substantivo'
                 r['raiz'] = lambdaOrNone(resultsbox.find(text=re.compile(r'pl\.')), lambda d: d.parent.a['href'].split('/')[-1])
             else:

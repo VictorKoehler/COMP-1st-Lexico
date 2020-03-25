@@ -59,6 +59,7 @@ reg('das', 'preposição', 'da') # Contração
 reg('dos', 'preposição', 'do') # Contração
 
 reg('são', 'verbo', 'ser', 'presente')
+reg('foram', 'verbo', 'ir', 'passado')
 
 reg('eu', 'pronome')
 reg('nós', 'pronome')
@@ -70,3 +71,6 @@ reg('ele', 'pronome')
 reg('eles', 'pronome', 'ele')
 reg('ela', 'pronome')
 reg('elas', 'pronome', 'ela')
+
+reg('patinhos', 'substantivo', 'pato')
+reg('patinho', 'substantivo', 'pato')
